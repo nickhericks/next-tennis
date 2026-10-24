@@ -11,7 +11,7 @@ Live: https://next-tennis-rho.vercel.app (pushes to `main` deploy automatically)
 | Route | Replaces | What it does |
 | --- | --- | --- |
 | `/` | `index.php` | Event cards: date, time, courts, player slots, "Edit players" |
-| `/add-event` | `add-event.php` | Create an event (free-text date/time, 1–2 courts, 1–8 players) |
+| `/add-event` | `add-event.php` | Create an event (date from the next 60 days, time in 30-min steps, 1–2 courts, 1–8 players) |
 | `/remove-event` | `remove-event.php` | Hide events (soft delete, `display = 'N'`) |
 | `/edit-event/[id]` | `edit-event.php` + `override-event.php` | Edit player names, with a conflict warning and Override / Refresh |
 
