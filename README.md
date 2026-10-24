@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# next-tennis
 
-## Getting Started
+A Next.js port of [php-tennis](https://github.com/nickhericks/php-tennis): a simple sign-up board for a weekly tennis group. Anyone can add an event, claim a spot by typing a name into a slot, and remove old events.
 
-First, run the development server:
+Built with Next.js (App Router, Server Actions), TypeScript, Tailwind CSS, and Neon Postgres, deployed on Vercel.
+
+## Pages
+
+| Route | Replaces | What it does |
+| --- | --- | --- |
+| `/` | `index.php` | Event cards: date, time, courts, player slots, "Edit players" |
+| `/add-event` | `add-event.php` | Create an event (free-text date/time, 1–2 courts, 1–8 players) |
+| `/remove-event` | `remove-event.php` | Hide events (soft delete, `display = 'N'`) |
+| `/edit-event/[id]` | `edit-event.php` + `override-event.php` | Edit player names, with a conflict warning and Override / Refresh |
+
+## Local development
 
 ```bash
+npm install
+vercel link              # link to the Vercel project
+vercel env pull .env.local   # pulls DATABASE_URL from the Neon integration
+npm run db:setup         # creates the events table and seeds two sample events
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Any Postgres works; just put a `DATABASE_URL` in `.env.local` (see `.env.example`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Differences from php-tennis
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This is meant to be a 1:1 port. The only intentional changes are:
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Conflict check fixed.** The PHP version missed some conflicts (a slot-1 conflict still saved; only the first conflict in slots 2–8 was shown) and flagged clearing your own name as a conflict. Now a slot conflicts only if someone else changed it after you loaded the form, and every conflicting slot is listed in one alert.
+- **Safe queries and output.** All SQL is parameterized and React escapes output, fixing the SQL injection and XSS holes.
+- **Edit URL.** `/edit-event/[id]` instead of a POST with `match_id`.
+- **Not ported:** `sendemail.php` (broken and unlinked) and the unused `.html` pages.

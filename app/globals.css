@@ -1,26 +1,46 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* Palette and fonts from the original php-tennis styles.css */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: #323643;
+  --color-cloud: #ecf0f1;
+  --color-go: #79bd8f;
+  --color-stop: #ff6138;
+  --color-footer: #202f3a;
+  --color-muted: #454545;
+  --font-sans: var(--font-roboto), Helvetica, Arial, sans-serif;
+  --font-display: var(--font-amaranth), Helvetica, Arial, sans-serif;
+  --shadow-card: 15px 15px 25px 0px rgba(46, 61, 73, 0.2);
+  --shadow-button: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  --shadow-button-hover: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  font-size: 1.125rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-image: linear-gradient(to bottom right, rgb(12, 228, 232), #ffff9d);
+}
+
+@layer components {
+  /* input[type=submit] / .back-button */
+  .btn {
+    @apply m-6 inline-block cursor-pointer rounded-[.375rem] border-none bg-ink p-3 text-[1.125rem] text-cloud shadow-button transition-shadow duration-300 hover:shadow-button-hover;
+  }
+  .btn-go {
+    @apply bg-go font-bold text-ink;
+  }
+  .btn-stop {
+    @apply bg-stop font-bold text-ink;
+  }
+  .banner-success {
+    @apply bg-go p-2 text-[1.25rem] font-bold text-cloud;
+  }
+  .banner-warning {
+    @apply bg-stop p-2 text-[1.25rem] font-bold text-cloud;
+  }
+  .field {
+    @apply mt-3 bg-white px-1 text-[1.5rem] text-ink;
+  }
 }
