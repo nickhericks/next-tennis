@@ -1,46 +1,46 @@
 @import "tailwindcss";
 
-/* Palette and fonts from the original php-tennis styles.css */
 @theme inline {
   --color-ink: #323643;
+  --color-ink-soft: #4a4f5e;
   --color-cloud: #ecf0f1;
-  --color-go: #79bd8f;
+  --color-go: #4fae74;
   --color-stop: #ff6138;
-  --color-footer: #202f3a;
-  --color-muted: #454545;
-  --font-sans: var(--font-roboto), Helvetica, Arial, sans-serif;
-  --font-display: var(--font-amaranth), Helvetica, Arial, sans-serif;
-  --shadow-card: 15px 15px 25px 0px rgba(46, 61, 73, 0.2);
-  --shadow-button: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  --shadow-button-hover: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-}
-
-html {
-  font-size: 1.125rem;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --shadow-soft: 0 1px 2px rgba(50, 54, 67, 0.06), 0 12px 32px -12px rgba(50, 54, 67, 0.25);
+  --shadow-lift: 0 2px 4px rgba(50, 54, 67, 0.08), 0 24px 48px -16px rgba(50, 54, 67, 0.35);
 }
 
 body {
+  /* The original php-tennis gradient */
   background-image: linear-gradient(to bottom right, rgb(12, 228, 232), #ffff9d);
+  background-attachment: fixed;
 }
 
-@layer components {
-  /* input[type=submit] / .back-button */
-  .btn {
-    @apply m-6 inline-block cursor-pointer rounded-[.375rem] border-none bg-ink p-3 text-[1.125rem] text-cloud shadow-button transition-shadow duration-300 hover:shadow-button-hover;
-  }
-  .btn-go {
-    @apply bg-go font-bold text-ink;
-  }
-  .btn-stop {
-    @apply bg-stop font-bold text-ink;
-  }
-  .banner-success {
-    @apply bg-go p-2 text-[1.25rem] font-bold text-cloud;
-  }
-  .banner-warning {
-    @apply bg-stop p-2 text-[1.25rem] font-bold text-cloud;
-  }
-  .field {
-    @apply mt-3 bg-white px-1 text-[1.5rem] text-ink;
-  }
+@utility glass {
+  @apply rounded-3xl border border-white/60 bg-white/70 shadow-soft backdrop-blur-xl;
+}
+
+@utility btn {
+  @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 focus-visible:ring-4 focus-visible:ring-ink/20 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+@utility btn-primary {
+  @apply btn bg-ink text-white shadow-soft hover:-translate-y-0.5 hover:bg-ink-soft hover:shadow-lift;
+}
+
+@utility btn-go {
+  @apply btn bg-go text-white shadow-soft hover:brightness-105;
+}
+
+@utility btn-stop {
+  @apply btn bg-stop text-white shadow-soft hover:brightness-105;
+}
+
+@utility field-label {
+  @apply mb-1.5 block text-sm font-semibold text-ink;
+}
+
+@utility field {
+  @apply w-full rounded-xl border border-ink/10 bg-white px-4 py-3 text-base text-ink shadow-sm transition outline-none placeholder:text-ink/35 focus:border-ink/40 focus:ring-4 focus:ring-ink/10;
 }

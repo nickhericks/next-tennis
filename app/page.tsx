@@ -5,37 +5,45 @@ import { getVisibleEvents } from "@/lib/db";
 
 async function EventList() {
   const events = await getVisibleEvents();
+  if (events.length === 0) {
+    return (
+      <div className="glass col-span-full mx-auto max-w-md p-8 text-center">
+        <p className="font-semibold">No events yet</p>
+        <p className="mt-1 text-sm text-ink/70">Create one to start collecting sign-ups.</p>
+        <Link href="/add-event" className="btn-primary mt-5">
+          Add event
+        </Link>
+      </div>
+    );
+  }
   return events.map((event) => <EventCard key={event.id} event={event} />);
+}
+
+function CardSkeleton() {
+  return <div className="glass h-96 animate-pulse" />;
 }
 
 export default function Home() {
   return (
     <>
-      <nav className="flex flex-row flex-wrap justify-end bg-ink p-3 shadow-card">
-        <Link className="mr-[2%] p-4 pt-2 text-[.75rem] text-cloud" href="/add-event">
-          Add Event
-        </Link>
-        <Link className="mr-[2%] p-4 pt-2 text-[.75rem] text-cloud" href="/remove-event">
-          Remove Event
-        </Link>
-      </nav>
+      <div className="mb-10 text-center">
+        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">Claim your spot on the court</h1>
+        <p className="mt-3 text-ink/70">Pick a match, add your name, and you&apos;re in.</p>
+      </div>
 
-      <h1 className="m-0 p-4 font-display text-[2rem] font-bold min-[751px]:text-[3rem]">Tennis Signup</h1>
-
-      <div className="flex flex-row flex-wrap justify-center">
-        <Suspense fallback={<p>Loading events...</p>}>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <Suspense
+          fallback={
+            <>
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+            </>
+          }
+        >
           <EventList />
         </Suspense>
       </div>
-
-      <footer className="mt-16 bg-footer p-4 text-white">
-        <p>
-          {"// built by "}
-          <a className="font-bold text-cloud" target="_blank" href="http://nickhericks.com/">
-            Nick Hericks
-          </a>
-        </p>
-      </footer>
     </>
   );
 }
