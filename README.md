@@ -4,6 +4,8 @@ A Next.js port of [php-tennis](https://github.com/nickhericks/php-tennis): a sim
 
 Built with Next.js (App Router, Server Actions), TypeScript, Tailwind CSS, and Neon Postgres, deployed on Vercel.
 
+Live: https://next-tennis-rho.vercel.app (pushes to `main` deploy automatically)
+
 ## Pages
 
 | Route | Replaces | What it does |
